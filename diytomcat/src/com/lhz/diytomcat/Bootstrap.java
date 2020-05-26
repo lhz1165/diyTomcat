@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
  **/
 public class Bootstrap {
     public static void main(String[] args)  {
+
         try {
             int port = 18080;
             if (!NetUtil.isUsableLocalPort(port)) {
@@ -26,18 +27,23 @@ public class Bootstrap {
             while (true) {
                 //建立连接
                 Socket s = ss.accept();
-                //获取输入流,浏览器的输入
+                //获取输入流,请求头
                 InputStream is = s.getInputStream();
                 int bufferSize = 1024;
                 byte[] buffer = new byte[bufferSize];
                 is.read(buffer);
                 String requestStr = new String(buffer, StandardCharsets.UTF_8);
+
+                //打印出来
                 System.out.println("浏览器的输入信息： \r\n" + requestStr);
 
+                //构建响应头
                 OutputStream os = s.getOutputStream();
                 String responseHead = "HTTP/1.1 200 OK\r\n" + "Content-Type: text/html\r\n\r\n";
                 String responseString = "Hello DIY Tomcat from lhz";
                 responseString = responseHead + responseString;
+
+                //写出到浏览器
                 os.write(responseString.getBytes());
                 os.flush();
                 s.close();
