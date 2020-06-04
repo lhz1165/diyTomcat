@@ -1,9 +1,6 @@
 package com.lhz.diytomcat.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
@@ -28,14 +25,19 @@ import java.util.Set;
  * 5. 以上4个方法都增加了个 gzip 参数，可以获取压缩后的数据，便于后续学习 gzip 章节的理解和学习
  **/
 public class MiniBrowser {
+    public static void main(String[] args) {
+        String url = "http://static.how2j.cn/diytomcat.html";
+        String httpString = getHttpString(url);
+        System.out.println(httpString);
+    }
 
 
     public static byte[] getContentBytes(String url) {
-        return null;
+        return getContentBytes(url, false);
     }
 
     public static String getContentString(String url) {
-
+        return getContentString(url, false);
     }
 
     public static String getContentString(String url, boolean gzip) {
@@ -44,27 +46,32 @@ public class MiniBrowser {
             return null;
         }
         try {
-            return new String(result,"utf-8").trim();
+            return new String(result, "utf-8").trim();
         } catch (UnsupportedEncodingException e) {
             return null;
         }
     }
 
+    public static String getHttpString(String url) {
+        return new String(getHttpBytes(url, false)).trim();
+    }
+
     /**
      * 获取二进制的相应体
+     *
      * @param url
      * @param gzip
      * @return
      */
     public static byte[] getContentBytes(String url, boolean gzip) {
-        byte[] response = getHttpBytes(url,gzip);
+        byte[] response = getHttpBytes(url, gzip);
         byte[] doubleReturn = "\r\n\r\n".getBytes();
 
         int pos = -1;
-        for (int i = 0; i < response.length-doubleReturn.length; i++) {
+        for (int i = 0; i < response.length - doubleReturn.length; i++) {
             byte[] temp = Arrays.copyOfRange(response, i, i + doubleReturn.length);
 
-            if(Arrays.equals(temp, doubleReturn)) {
+            if (Arrays.equals(temp, doubleReturn)) {
                 pos = i;
                 break;
             }
@@ -82,6 +89,7 @@ public class MiniBrowser {
 
     /**
      * 返回二进制的 http 响应头
+     *
      * @param url
      * @param gzip
      * @return
@@ -92,57 +100,42 @@ public class MiniBrowser {
             URL u = new URL(url);
             Socket client = new Socket();
             int port = u.getPort();
-            if (-1 == port) {
+            if (-1 == port)
                 port = 80;
-            }
-            InetSocketAddress inetSocketAddress = new InetSocketAddress(u.getHost(),port);
-            client.connect(inetSocketAddress,1000);
-            //封装http请求头
-            Map<String,String> requestHeaders = new HashMap<>();
-            requestHeaders.put("Host", u.getHost()+":"+port);
+            InetSocketAddress inetSocketAddress = new InetSocketAddress(u.getHost(), port);
+            client.connect(inetSocketAddress, 1000);
+            Map<String, String> requestHeaders = new HashMap<>();
+
+            requestHeaders.put("Host", u.getHost() + ":" + port);
             requestHeaders.put("Accept", "text/html");
             requestHeaders.put("Connection", "close");
-            requestHeaders.put("User-Agent", "lhz mini brower / java1.8");
+            requestHeaders.put("User-Agent", "how2j mini brower / java1.8");
 
             if (gzip) {
+
                 requestHeaders.put("Accept-Encoding", "gzip");
             }
+
             String path = u.getPath();
             if (path.length() == 0) {
+
                 path = "/";
             }
-            //请求头
-            String fristLine = "GET " + path + "HTTP/1.1\r\n";
+
+            String firstLine = "GET " + path + " HTTP/1.1\r\n";
 
             StringBuffer httpRequestString = new StringBuffer();
-            httpRequestString.append(fristLine);
+            httpRequestString.append(firstLine);
             Set<String> headers = requestHeaders.keySet();
             for (String header : headers) {
-                String headerLine = header + ": " + requestHeaders.get(header) + "\r\n";
+                String headerLine = header + ":" + requestHeaders.get(header) + "\r\n";
                 httpRequestString.append(headerLine);
             }
-            //封装好了 写出
-            PrintWriter writer = new PrintWriter(client.getOutputStream());
-            writer.println(httpRequestString);
-            InputStream is = client.getInputStream();
-            int buffer_size = 1024;
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] buffer = new byte[buffer_size];
-            while (true) {
-                int length = is.read(buffer);
-                if (-1 == length) {
-                    break;
-                }
-            }
-            int len = 0;
-            while ((len=is.read(buffer)) != -1) {
-                baos.write(buffer,0,len);
-                if (len != buffer_size) {
-                    break;
-                }
-            }
-            result = baos.toByteArray();
+            PrintWriter pWriter = new PrintWriter(client.getOutputStream(), true);
+            pWriter.println(httpRequestString);
+            InputStream is = client.getInputStream();
+            result = readBytes(is);
             client.close();
 
         } catch (Exception e) {
@@ -150,5 +143,22 @@ public class MiniBrowser {
             result = e.toString().getBytes(StandardCharsets.UTF_8);
         }
         return result;
+    }
+
+    public static byte[] readBytes(InputStream is) throws IOException {
+        int buffer_size = 1024;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buffer = new byte[buffer_size];
+        int len = 0;
+        //从输入流 获取服务器的响应
+        while ((len = is.read(buffer)) != -1) {
+            //把响应给写出来 转化成buye[]
+            baos.write(buffer, 0, len);
+            if (len != buffer_size) {
+                break;
+            }
+        }
+
+        return baos.toByteArray();
     }
 }

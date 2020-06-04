@@ -2,7 +2,39 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="26b0298d-04c0-492e-ab2d-2052c015a1b8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/com/lhz/diytomcat/http/Request.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/lhz/diytomcat/http/Response.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/lhz/diytomcat/log4j.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/lhz/diytomcat/util/Constant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/TestTomcat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webapps/ROOT/a.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/.idea/$CACHE_FILE$" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/.idea/dictionaries" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/.idea/libraries/lib.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/lib/apiguardian-api-1.0.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/lib/junit-jupiter-5.4.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/lib/junit-jupiter-api-5.4.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/lib/junit-jupiter-engine-5.4.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/lib/junit-jupiter-params-5.4.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/lib/junit-platform-commons-1.4.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/lib/junit-platform-engine-1.4.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/lib/opentest4j-1.1.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/sortproject.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/src/elapsedtime/ElapsedTime.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/src/sortnumbers/SortNumbers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/test/elapsedtime/TestElapsedTime.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../xianyu/sortproject/test/sortnumbers/TestSortNumbers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/diytomcat.iml" beforeDir="false" afterPath="$PROJECT_DIR$/diytomcat.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/diytomcat/com/lhz/diytomcat/Bootstrap.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/diytomcat/com/lhz/diytomcat/Bootstrap.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/lhz/diytomcat/Bootstrap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/lhz/diytomcat/Bootstrap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/lhz/diytomcat/util/MiniBrowser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/lhz/diytomcat/util/MiniBrowser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -14,6 +46,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -30,25 +63,30 @@
     </option>
   </component>
   <component name="ProjectId" id="1cOghLHMT4hEVrXXVVXwVu30kmN" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/com/lhz/diytomcat" />
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\lhz\project\private\diytomcat\src\com\lhz\diytomcat" />
       <recent name="D:\lhz\project\private\diytomcat\lib" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Bootstrap">
     <configuration name="Bootstrap" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.lhz.diytomcat.Bootstrap" />
       <module name="diytomcat" />
@@ -62,9 +100,55 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.lhz.diytomcat.util.Test" />
+      <module name="diytomcat" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lhz.diytomcat.util.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestTomcat" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="diytomcat" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestTomcat" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestTomcat.testHelloTomcat" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="diytomcat" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestTomcat" />
+      <option name="METHOD_NAME" value="testHelloTomcat" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestTomcat.testaHtml" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="diytomcat" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestTomcat" />
+      <option name="METHOD_NAME" value="testaHtml" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Bootstrap" />
+        <item itemvalue="JUnit.TestTomcat" />
+        <item itemvalue="JUnit.TestTomcat.testaHtml" />
+        <item itemvalue="Application.Test" />
+        <item itemvalue="JUnit.TestTomcat.testHelloTomcat" />
       </list>
     </recent_temporary>
   </component>
@@ -81,7 +165,10 @@
       <workItem from="1590405172771" duration="3210000" />
       <workItem from="1590458101619" duration="929000" />
       <workItem from="1590460468227" duration="4613000" />
-      <workItem from="1590577625537" duration="1427000" />
+      <workItem from="1590577625537" duration="8225000" />
+      <workItem from="1590717191818" duration="1857000" />
+      <workItem from="1590980593166" duration="4463000" />
+      <workItem from="1591177622479" duration="9286000" />
     </task>
     <task id="LOCAL-00001" summary="模拟浏览器客户端">
       <created>1590491291154</created>
@@ -90,7 +177,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590491291154</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="模拟浏览器客户端02">
+      <created>1590579089649</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1590579089649</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -112,28 +206,88 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <MESSAGE value="模拟浏览器客户端" />
-    <option name="LAST_COMMIT_MESSAGE" value="模拟浏览器客户端" />
+    <MESSAGE value="模拟浏览器客户端02" />
+    <option name="LAST_COMMIT_MESSAGE" value="模拟浏览器客户端02" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="572" y="115" key="CommitChangelistDialog2" timestamp="1590491290621">
+    <state x="1442" y="356" key="#com.intellij.ide.util.MemberChooser" timestamp="1591251855617">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="572" y="115" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1590491290621" />
-    <state width="1877" height="186" key="GridCell.Tab.0.bottom" timestamp="1590457988330">
+    <state x="1442" y="356" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1591251855617" />
+    <state x="572" y="115" key="CommitChangelistDialog2" timestamp="1590579088598">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="186" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1590457988330" />
-    <state width="1877" height="186" key="GridCell.Tab.0.center" timestamp="1590457988330">
+    <state x="572" y="115" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1590579088598" />
+    <state width="1877" height="283" key="GridCell.Tab.0.bottom" timestamp="1591257714411">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="186" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1590457988330" />
-    <state width="1877" height="186" key="GridCell.Tab.0.left" timestamp="1590457988329">
+    <state width="1877" height="283" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591257714411" />
+    <state width="1877" height="283" key="GridCell.Tab.0.center" timestamp="1591257714410">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="186" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1590457988329" />
-    <state width="1877" height="186" key="GridCell.Tab.0.right" timestamp="1590457988330">
+    <state width="1877" height="283" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591257714410" />
+    <state width="1877" height="283" key="GridCell.Tab.0.left" timestamp="1591257714410">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="186" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1590457988330" />
+    <state width="1877" height="283" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591257714410" />
+    <state width="1877" height="283" key="GridCell.Tab.0.right" timestamp="1591257714410">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="283" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591257714410" />
+    <state width="1877" height="151" key="GridCell.Tab.1.bottom" timestamp="1591254959846">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="151" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591254959846" />
+    <state width="1877" height="151" key="GridCell.Tab.1.center" timestamp="1591254959846">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="151" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591254959846" />
+    <state width="1877" height="151" key="GridCell.Tab.1.left" timestamp="1591254959846">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="151" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591254959846" />
+    <state width="1877" height="151" key="GridCell.Tab.1.right" timestamp="1591254959846">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="151" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591254959846" />
+    <state x="334" y="136" key="new project wizard" timestamp="1590717234697">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="334" y="136" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1590717234697" />
+    <state x="871" y="276" width="672" height="678" key="search.everywhere.popup" timestamp="1590632894652">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="871" y="276" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1590632894652" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/lhz/diytomcat/util/MiniBrowser.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/lhz/diytomcat/util/MiniBrowser.java</url>
+          <line>84</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/test/TestTomcat.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/lhz/diytomcat/Bootstrap.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/lhz/diytomcat/util/MiniBrowser.java</url>
+          <line>104</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
