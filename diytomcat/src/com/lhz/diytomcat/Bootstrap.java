@@ -107,7 +107,6 @@ public class Bootstrap {
 
         OutputStream os = s.getOutputStream();
         os.write(responseBytes);
-
         s.close();
     }
 }
