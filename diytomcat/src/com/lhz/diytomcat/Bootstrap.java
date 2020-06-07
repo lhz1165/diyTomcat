@@ -6,9 +6,11 @@ import cn.hutool.core.util.NetUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.LogFactory;
 import cn.hutool.system.SystemUtil;
+import com.lhz.diytomcat.catalina.Context;
 import com.lhz.diytomcat.http.Request;
 import com.lhz.diytomcat.http.Response;
 import com.lhz.diytomcat.util.Constant;
+import com.lhz.diytomcat.util.ThreadPoolUtil;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.*;
@@ -16,9 +18,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.sql.Struct;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author: lhz
@@ -26,9 +30,12 @@ import java.util.Set;
  **/
 public class Bootstrap {
 
+    public static Map<String, Context> contextMap = new HashMap<>();
+
+
     public static void main(String[] args) {
         try {
-            PropertyConfigurator.configure("D:\\lhz\\project\\private\\diytomcat\\src\\com\\lhz\\diytomcat\\log4j.properties");
+            PropertyConfigurator.configure("src\\com\\lhz\\diytomcat\\log4j.properties");
             logJVM();
 
             int port = 18080;
@@ -41,32 +48,45 @@ public class Bootstrap {
 
             while(true) {
                 Socket s =  ss.accept();
-                Request request = new Request(s);
-                System.out.println("浏览器的输入信息： \r\n" + request.getRequestString());
-                System.out.println("uri:" + request.getUri());
+                Runnable runnable=new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Request request = new Request(s);
+                            Response response = new Response();
 
-                Response response = new Response();
+                            System.out.println("浏览器的输入信息： \r\n" + request.getRequestString());
+                            System.out.println("uri:" + request.getUri());
 
-                String uri = request.getUri();
-                if(null==uri)
-                    continue;
-                System.out.println(uri);
-                if("/".equals(uri)){
-                    String html = "Hello DIY Tomcat from how2j.cn";
-                    response.getWriter().println(html);
-                }
-                else{
-                    String fileName = StrUtil.removePrefix(uri, "/");
-                    File file = FileUtil.file(Constant.rootFolder,fileName);
-                    if(file.exists()){
-                        String fileContent = FileUtil.readUtf8String(file);
-                        response.getWriter().println(fileContent);
+
+                            String uri = request.getUri();
+                            if (null == uri)
+                                return;
+                            System.out.println(uri);
+
+                            Context context = request.getContext();
+                            if ("/".equals(uri)) {
+                                String html = "Hello DIY Tomcat from how2j.cn";
+                                response.getWriter().println(html);
+                            } else {
+                                String fileName = StrUtil.removePrefix(uri, "/");
+                                //File file = FileUtil.file(Constant.rootFolder, fileName);
+                                File file = FileUtil.file(context.getDocBase(), fileName);
+                                if (file.exists()) {
+                                    String fileContent = FileUtil.readUtf8String(file);
+                                    response.getWriter().println(fileContent);
+                                } else {
+                                    response.getWriter().println("File Not Found");
+                                }
+                                handle200(s, response);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-                    else{
-                        response.getWriter().println("File Not Found");
-                    }
-                }
-                handle200(s, response);
+                };
+
+                ThreadPoolUtil.run(runnable);
             }
         } catch (IOException e) {
             LogFactory.get().error(e);
@@ -108,5 +128,33 @@ public class Bootstrap {
         OutputStream os = s.getOutputStream();
         os.write(responseBytes);
         s.close();
+    }
+
+    public static void scanContextsOnWebAppFolder() {
+        File[] folders = Constant.webappFplader.listFiles();
+        for (File folder : folders) {
+            if (!folder.isDirectory()) {
+                continue;
+            }
+            loadContext(folder);
+
+        }
+    }
+
+    /**
+     * 加载目录成为Context对象
+     * @param folder
+     */
+    private static void loadContext(File folder) {
+        //访问路径  /
+        String path = folder.getName();
+        if ("ROOT".equals(path))
+            path = "/";
+        else
+            path = "/" + path;
+        //文件系统中的绝对路径
+        String docBase = folder.getAbsolutePath();
+        Context context = new Context(path,docBase);
+        contextMap.put(context.getPath(), context);
     }
 }
