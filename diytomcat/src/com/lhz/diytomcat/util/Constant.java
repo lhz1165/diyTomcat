@@ -19,4 +19,11 @@ public class Constant {
     public final static File webappFplader = new File(SystemUtil.get("user.dir"), "webapps");
     //D:\JavaSoft\Workspase\gitProject\diytomcat\webapps\ROOT
     public final static File rootFolder = new File(webappFplader,"ROOT");
+
+    //定位server.xml的常量
+    public static final File confFolder = new File(SystemUtil.get("user.dir"),"conf");
+    //D:\JavaSoft\Workspase\gitProject\diytomcat\conf\server.xml
+    public static final File serverXmlFile = new File(confFolder, "server.xml");
+
+
 }
