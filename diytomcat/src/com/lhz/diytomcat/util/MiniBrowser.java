@@ -25,22 +25,22 @@ import java.util.Set;
  * 5. 以上4个方法都增加了个 gzip 参数，可以获取压缩后的数据，便于后续学习 gzip 章节的理解和学习
  **/
 public class MiniBrowser {
-    public static void main(String[] args) {
-        String url = "http://static.how2j.cn/diytomcat.html";
-        String httpString = getHttpString(url);
-        System.out.println(httpString);
-    }
+//    public static void main(String[] args) {
+//        String url = "http://static.how2j.cn/diytomcat.html";
+//        String httpString = getHttpString(url);
+//        System.out.println(httpString);
+//    }
 
 
     public static byte[] getContentBytes(String url) {
         return getContentBytes(url, false);
     }
 
-    public static String getContentString(String url) {
-        return getContentString(url, false);
+    public static String sendRequestAndGetResponse(String url) {
+        return sendRequestAndGetResponse(url, false);
     }
 
-    public static String getContentString(String url, boolean gzip) {
+    public static String sendRequestAndGetResponse(String url, boolean gzip) {
         byte[] result = getContentBytes(url, gzip);
         if (null == result) {
             return null;
@@ -53,7 +53,7 @@ public class MiniBrowser {
     }
 
     public static String getHttpString(String url) {
-        return new String(getHttpBytes(url, false)).trim();
+        return new String(sendRequestAndGetResponseByte(url, false)).trim();
     }
 
     /**
@@ -64,7 +64,7 @@ public class MiniBrowser {
      * @return
      */
     public static byte[] getContentBytes(String url, boolean gzip) {
-        byte[] response = getHttpBytes(url, gzip);
+        byte[] response = sendRequestAndGetResponseByte(url, gzip);
         byte[] doubleReturn = "\r\n\r\n".getBytes();
 
         int pos = -1;
@@ -88,20 +88,23 @@ public class MiniBrowser {
 
 
     /**
+     *
+     * 首先发送请求然后
      * 返回二进制的 http 响应头
      *
      * @param url
      * @param gzip
      * @return
      */
-    public static byte[] getHttpBytes(String url, boolean gzip) {
+    public static byte[] sendRequestAndGetResponseByte(String url, boolean gzip) {
         byte[] result = null;
         try {
             URL u = new URL(url);
             Socket client = new Socket();
             int port = u.getPort();
-            if (-1 == port)
+            if (-1 == port) {
                 port = 80;
+            }
             InetSocketAddress inetSocketAddress = new InetSocketAddress(u.getHost(), port);
             client.connect(inetSocketAddress, 1000);
             Map<String, String> requestHeaders = new HashMap<>();
@@ -131,10 +134,11 @@ public class MiniBrowser {
                 String headerLine = header + ":" + requestHeaders.get(header) + "\r\n";
                 httpRequestString.append(headerLine);
             }
-
+            //把http请求写出去
             PrintWriter pWriter = new PrintWriter(client.getOutputStream(), true);
             pWriter.println(httpRequestString);
             InputStream is = client.getInputStream();
+            //读取响应
             result = readBytes(is);
             client.close();
 
@@ -145,14 +149,20 @@ public class MiniBrowser {
         return result;
     }
 
+    /**
+     * 读取请求或者响应 然后把他们转化成字节数组
+     * @param is
+     * @return
+     * @throws IOException
+     */
     public static byte[] readBytes(InputStream is) throws IOException {
         int buffer_size = 1024;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] buffer = new byte[buffer_size];
         int len = 0;
-        //从输入流 获取服务器的响应
+        //从输入流
         while ((len = is.read(buffer)) != -1) {
-            //把响应给写出来 转化成buye[]
+            // 转化成buye[]
             baos.write(buffer, 0, len);
             if (len != buffer_size) {
                 break;

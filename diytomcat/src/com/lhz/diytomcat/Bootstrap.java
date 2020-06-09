@@ -7,9 +7,11 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.LogFactory;
 import cn.hutool.system.SystemUtil;
 import com.lhz.diytomcat.catalina.Context;
+import com.lhz.diytomcat.catalina.Host;
 import com.lhz.diytomcat.http.Request;
 import com.lhz.diytomcat.http.Response;
 import com.lhz.diytomcat.util.Constant;
+import com.lhz.diytomcat.util.ServerXMLUtil;
 import com.lhz.diytomcat.util.ThreadPoolUtil;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -18,10 +20,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.sql.Struct;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -38,6 +37,9 @@ public class Bootstrap {
             PropertyConfigurator.configure("src\\com\\lhz\\diytomcat\\log4j.properties");
             logJVM();
 
+            scanContextsOnWebAppFolder();
+            scanContextsOnXML();
+
             int port = 18080;
 
 //            if(!NetUtil.isUsableLocalPort(port)) {
@@ -48,36 +50,42 @@ public class Bootstrap {
 
             while(true) {
                 Socket s =  ss.accept();
+                Host host = new Host();
                 Runnable runnable=new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            Request request = new Request(s);
+                            Request request = new Request(s,host);
                             Response response = new Response();
 
                             System.out.println("浏览器的输入信息： \r\n" + request.getRequestString());
                             System.out.println("uri:" + request.getUri());
+                            System.out.println("---------------------");
 
 
                             String uri = request.getUri();
-                            if (null == uri)
+                            if (null == uri) {
                                 return;
-                            System.out.println(uri);
+                            }
 
                             Context context = request.getContext();
+
                             if ("/".equals(uri)) {
                                 String html = "Hello DIY Tomcat from how2j.cn";
+                                //返回响应体写进流
                                 response.getWriter().println(html);
                             } else {
                                 String fileName = StrUtil.removePrefix(uri, "/");
-                                //File file = FileUtil.file(Constant.rootFolder, fileName);
                                 File file = FileUtil.file(context.getDocBase(), fileName);
+
+                                //返回响应体写进流
                                 if (file.exists()) {
                                     String fileContent = FileUtil.readUtf8String(file);
                                     response.getWriter().println(fileContent);
                                 } else {
                                     response.getWriter().println("File Not Found");
                                 }
+                                //处理响应头
                                 handle200(s, response);
                             }
                         } catch (IOException e) {
@@ -95,6 +103,9 @@ public class Bootstrap {
 
     }
 
+    /**
+     * 日志
+     */
     private static void logJVM() {
         Map<String,String> infos = new LinkedHashMap<>();
         infos.put("Server version", "How2J DiyTomcat/1.0.1");
@@ -109,23 +120,31 @@ public class Bootstrap {
 
         Set<String> keys = infos.keySet();
         for (String key : keys) {
-            LogFactory.get().info(key+":\t\t" + infos.get(key));
+            LogFactory.get().debug(key+":\t\t" + infos.get(key));
         }
     }
 
     private static void handle200(Socket s, Response response) throws IOException {
+        //text/html
         String contentType = response.getContentType();
         String headText = Constant.response_head_202;
+
+        //HTTP/1.1 200 OK\r\n"+"Content-Type:{text/html}\r\n\r\n
         headText = StrUtil.format(headText, contentType);
+
         byte[] head = headText.getBytes();
 
         byte[] body = response.getBody();
 
         byte[] responseBytes = new byte[head.length + body.length];
+
+        //把响应头添加到字节数组取
         ArrayUtil.copy(head, 0, responseBytes, 0, head.length);
         ArrayUtil.copy(body, 0, responseBytes, head.length, body.length);
 
         OutputStream os = s.getOutputStream();
+
+        //把响应写出去
         os.write(responseBytes);
         s.close();
     }
@@ -141,6 +160,14 @@ public class Bootstrap {
         }
     }
 
+    public static void scanContextsOnXML() {
+        List<Context> context = ServerXMLUtil.getContext();
+        for (Context c : context) {
+            contextMap.put(c.getPath(), c);
+        }
+    }
+
+
     /**
      * 加载目录成为Context对象
      * @param folder
@@ -148,10 +175,11 @@ public class Bootstrap {
     private static void loadContext(File folder) {
         //访问路径  /
         String path = folder.getName();
-        if ("ROOT".equals(path))
+        if ("ROOT".equals(path)) {
             path = "/";
-        else
+        } else {
             path = "/" + path;
+        }
         //文件系统中的绝对路径
         String docBase = folder.getAbsolutePath();
         Context context = new Context(path,docBase);

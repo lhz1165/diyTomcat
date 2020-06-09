@@ -17,8 +17,10 @@ import java.util.List;
  */
 public class ServerXMLUtil {
 	public static void main(String[] args) {
+		System.out.println(getHostName());
 		getContext();
 	}
+
 	public static List<Context> getContext() {
 		ArrayList<Context> result = new ArrayList<>();
 		//读取文件内容
@@ -26,13 +28,22 @@ public class ServerXMLUtil {
 		//解析xml
 		Document d = Jsoup.parse(xml);
 		Elements es = d.select("Context");
+		// <Context path="/b" docBase="D:/lhz/project/private/diytomcat/b" />
 		for (Element e : es) {
+			//path="/b"
 			String path = e.attr("path");
+			//docBase="D:/lhz/project/private/diytomcat/b"
 			String docBase = e.attr("docBase");
 			Context context = new Context(path, docBase);
 			result.add(context);
 		}
 		return result;
+	}
 
+	public static String getHostName() {
+		String xml =FileUtil.readUtf8String(Constant.serverXmlFile);
+		Document d = Jsoup.parse(xml);
+		Elements es = d.select("Host");
+		return es.first().attr("name");
 	}
 }

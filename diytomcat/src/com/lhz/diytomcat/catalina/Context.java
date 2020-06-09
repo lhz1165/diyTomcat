@@ -9,9 +9,9 @@ import cn.hutool.log.LogFactory;
  * @create 2020/6/7
  */
 public class Context {
-	//访问的路径
+	//访问的路径 相对路径 比如 /
 	private String path;
-	//文件系统中的位置
+	//文件系统中的位置  绝对路径 D:\lhz\project\private\diytomcat\webapps\ROOT
 	private String docBase;
 
 	public Context(String path, String docBase) {

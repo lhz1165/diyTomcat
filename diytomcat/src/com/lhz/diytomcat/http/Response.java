@@ -17,6 +17,8 @@ public class Response {
 
     private String contentType;
 
+
+
     public Response() {
         this.stringWriter = new StringWriter();
         writer = new PrintWriter(stringWriter);
@@ -30,6 +32,12 @@ public class Response {
     public PrintWriter getWriter() {
         return writer;
     }
+
+    /**
+     * 请求体
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     public byte[] getBody() throws UnsupportedEncodingException {
         String content = stringWriter.toString();
         return content.getBytes(StandardCharsets.UTF_8);

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Server>
-    <Context path="/b" docBase="d:/project/diytomcat/b" />
+    <Host name = "localhost">
+        <Context path="/b" docBase="D:/lhz/project/private/diytomcat/b" />
+    </Host>
 </Server>
