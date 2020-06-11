@@ -2,6 +2,8 @@ package com.lhz.diytomcat.util;
 
 import cn.hutool.core.io.FileUtil;
 import com.lhz.diytomcat.catalina.Context;
+import com.lhz.diytomcat.catalina.Engine;
+import com.lhz.diytomcat.catalina.Host;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,8 +19,7 @@ import java.util.List;
  */
 public class ServerXMLUtil {
 	public static void main(String[] args) {
-		System.out.println(getHostName());
-		getContext();
+		System.out.println(getEngineDefaultHost());
 	}
 
 	public static List<Context> getContext() {
@@ -40,10 +41,44 @@ public class ServerXMLUtil {
 		return result;
 	}
 
-	public static String getHostName() {
-		String xml =FileUtil.readUtf8String(Constant.serverXmlFile);
+
+	public static String getEngineDefaultHost() {
+		return getSomeoneName("Engine","defaultHost");
+	}
+	public static List<Host> getHosts(Engine engine) {
+		List<Host> result = new ArrayList<>();
+		Elements es = getElement("Host");
+		for (Element e : es) {
+			String name = e.attr("name");
+			Host host = new Host(name,engine);
+			result.add(host);
+		}
+		return result;
+	}
+	public static String getServiceName() {
+		return getSomeoneName("Service","name");
+	}
+
+
+	/**
+	 * 获取Element
+	 * @param node
+	 * @return
+	 */
+	public static Elements getElement(String node) {
+		String xml = FileUtil.readUtf8String(Constant.serverXmlFile);
 		Document d = Jsoup.parse(xml);
-		Elements es = d.select("Host");
-		return es.first().attr("name");
+		return d.select(node);
+	}
+
+	/**
+	 * 获取标签的第一个属性
+	 * @param node
+	 * @param attribute
+	 * @return
+	 */
+	public static String getSomeoneName(String node,String attribute) {
+		Element host = getElement(node).first();
+		return host.attr(attribute);
 	}
 }

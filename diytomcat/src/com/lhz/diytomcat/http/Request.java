@@ -3,7 +3,9 @@ package com.lhz.diytomcat.http;
 import cn.hutool.core.util.StrUtil;
 import com.lhz.diytomcat.Bootstrap;
 import com.lhz.diytomcat.catalina.Context;
+import com.lhz.diytomcat.catalina.Engine;
 import com.lhz.diytomcat.catalina.Host;
+import com.lhz.diytomcat.catalina.Service;
 import com.lhz.diytomcat.util.MiniBrowser;
 
 import java.io.IOException;
@@ -21,9 +23,9 @@ public class Request {
     private String uri;
     private Socket socket;
     private Context context;
-    private Host host;
-    public Request(Socket socket,Host host) throws IOException {
-        this.host = host;
+    private Service service;
+    public Request(Socket socket,Service service) throws IOException {
+        this.service = service;
         this.socket = socket;
         //把请求解析成字符串  http的请求头样式 GET /b/index.html HTTP1.1 ····
         this.requestString=parseHttpRequest();
@@ -84,9 +86,9 @@ public class Request {
             path = "/" + path;
         }
 
-        Context context = host.getContext(path);
+        Context context = service.getEngine().getDefaultHost().getContext(path);
         if (null == context) {
-            context = host.getContext("/");
+            context = service.getEngine().getDefaultHost().getContext("/");
         }
         return context;
     }

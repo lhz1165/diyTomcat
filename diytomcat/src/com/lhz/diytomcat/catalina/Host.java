@@ -18,9 +18,12 @@ public class Host {
 
     private String name;
     private Map<String,Context> contextMap;
+    private Engine engine;
 
-    public Host() {
-        name = ServerXMLUtil.getHostName();
+
+    public Host(String name,Engine engine) {
+        this.engine = engine;
+        this.name = name;
         contextMap = new HashMap<>();
         scanXml(contextMap);
         scanWebapp(contextMap);
