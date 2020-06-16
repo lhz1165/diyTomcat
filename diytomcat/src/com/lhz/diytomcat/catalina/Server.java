@@ -10,6 +10,7 @@ import com.lhz.diytomcat.http.Response;
 import com.lhz.diytomcat.util.Constant;
 import com.lhz.diytomcat.util.ServerXMLUtil;
 import com.lhz.diytomcat.util.ThreadPoolUtil;
+import com.lhz.diytomcat.util.WebXMLUtil;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -29,12 +30,14 @@ import java.util.Set;
  * @date: 2020/6/11
  **/
 public class Server {
+
     private Service service;
-    public Server(){
+
+    public Server() {
         this.service = new Service(this);
     }
 
-    public void start(){
+    public void start() {
         logJVM();
         init();
     }
@@ -47,15 +50,15 @@ public class Server {
             int port = 18080;
             ServerSocket ss = new ServerSocket(port);
 
-            while(true) {
-                Socket s =  ss.accept();
+            while (true) {
+                Socket s = ss.accept();
 
-                Runnable runnable= new Runnable() {
+                Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            int i = 1 / 0;
-                            Request request = new Request(s,service);
+
+                            Request request = new Request(s, service);
                             Response response = new Response();
 
                             System.out.println("浏览器的输入信息： \r\n" + request.getRequestString());
@@ -71,28 +74,27 @@ public class Server {
                             Context context = request.getContext();
 
                             if ("/".equals(uri)) {
-                                String html = "Hello DIY Tomcat from how2j.cn";
-                                //返回响应体写进流
-                                response.getWriter().println(html);
-                            } else {
-                                String fileName = StrUtil.removePrefix(uri, "/");
-                                File file = FileUtil.file(context.getDocBase(), fileName);
 
-                                //返回响应体写进流
-                                if (file.exists()) {
-                                    String fileContent = FileUtil.readUtf8String(file);
-                                    response.getWriter().println(fileContent);
-                                } else {
-                                    handle404(s,uri);
-                                    return;
-                                }
-                                //处理响应头
-                                handle200(s, response);
+                                uri = WebXMLUtil.getWebXml(request.getContext());
                             }
+                            String fileName = StrUtil.removePrefix(uri, "/");
+                            File file = FileUtil.file(context.getDocBase(), fileName);
+
+                            //返回响应体写进流
+                            if (file.exists()) {
+                                String fileContent = FileUtil.readUtf8String(file);
+                                response.getWriter().println(fileContent);
+                            } else {
+                                handle404(s, uri);
+                                return;
+                            }
+                            //处理响应头
+                            handle200(s, response);
+
                         } catch (Exception e) {
                             e.printStackTrace();
-                            handle500(s,e);
-                        }finally {
+                            handle500(s, e);
+                        } finally {
                             try {
                                 if (!s.isClosed()) {
                                     s.close();
@@ -117,7 +119,7 @@ public class Server {
      * 日志
      */
     private static void logJVM() {
-        Map<String,String> infos = new LinkedHashMap<>();
+        Map<String, String> infos = new LinkedHashMap<>();
         infos.put("Server version", "How2J DiyTomcat/1.0.1");
         infos.put("Server built", "2020-04-08 10:20:22");
         infos.put("Server number", "1.0.1");
@@ -130,7 +132,7 @@ public class Server {
 
         Set<String> keys = infos.keySet();
         for (String key : keys) {
-            LogFactory.get().debug(key+":\t\t" + infos.get(key));
+            LogFactory.get().debug(key + ":\t\t" + infos.get(key));
         }
     }
 
@@ -194,7 +196,7 @@ public class Server {
              * 	java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
              * 	java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
              * 	java.lang.Thread.run(Thread.java:748)
-             * 	}
+             *    }
              */
             String text = StrUtil.format(Constant.textFormat_500, msg, e.toString(), sb.toString());
             //String text = StrUtil.format(Constant.textFormat_500, msg,  sb.toString());
@@ -205,9 +207,6 @@ public class Server {
             e1.printStackTrace();
         }
     }
-
-
-
 
 
 }

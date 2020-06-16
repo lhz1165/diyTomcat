@@ -78,6 +78,11 @@ public class Request {
      * 如果获取不到，比如 /b/a.html, 对应的 path 是 /b, 是没有对应 Context 的，那么就获取 "/” 对应的 ROOT Context。
      */
     private Context parseContext() {
+
+        Context context = service.getEngine().getDefaultHost().getContext(uri);
+        if (null != context) {
+            return context;
+        }
         //   /b/a.html  --->path=b
         String path = StrUtil.subBetween(uri, "/", "/");
         if (null == path) {
@@ -85,8 +90,7 @@ public class Request {
         } else {
             path = "/" + path;
         }
-
-        Context context = service.getEngine().getDefaultHost().getContext(path);
+        context = service.getEngine().getDefaultHost().getContext(path);
         if (null == context) {
             context = service.getEngine().getDefaultHost().getContext("/");
         }
